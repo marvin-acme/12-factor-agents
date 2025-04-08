@@ -2,102 +2,73 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-8">12 Factor Agents - Principles for building great LLM applications</h1>
+      
+      <p className="italic mb-8">In the spirit of <a href="https://12factor.net/" className="text-blue-500 hover:underline">12 Factor Apps</a>. The source for this project is public at <a href="https://github.com/humanlayer/12-factor-agents" className="text-blue-500 hover:underline">https://github.com/humanlayer/12-factor-agents</a>, and I welcome your feedback and contributions. Let's figure this out together!</p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+      <div className="mb-8">
+        <Image 
+          src="/027-agent-loop-animation.gif"
+          alt="Agent Loop Animation"
+          width={907}
+          height={500}
+          className="w-full"
+        />
+      </div>
+
+      <div className="mb-8">
+        <p>Hi, I'm Dex. I've been hacking on AI agents for a while.</p>
+        <p className="font-bold mt-4">I've tried every agent framework out there</p>
+        <p>From the plug-and-play crew/langchains to the "minimalist" smolagents of the world to the "production grade" langraph, griptape, etc.</p>
+      </div>
+
+      <h2 className="text-2xl font-bold mb-4">The 12 Factors</h2>
+      <div className="grid grid-cols-3 gap-4 mb-8">
+        {[
+          ["Factor 1: Natural Language to Tool Calls", "110-natural-language-tool-calls.png"],
+          ["Factor 2: Own your prompts", "120-own-your-prompts.png"],
+          ["Factor 3: Own your context window", "130-own-your-context-building.png"],
+          ["Factor 4: Tools are just structured outputs", "140-tools-are-just-structured-outputs.png"],
+          ["Factor 5: Unify execution state", "150-unify-state.png"],
+          ["Factor 6: Launch/Pause/Resume with simple APIs", "160-pause-resume-with-simple-apis.png"],
+          ["Factor 7: Contact humans with tool calls", "170-contact-humans-with-tools.png"],
+          ["Factor 8: Own your control flow", "180-control-flow.png"],
+          ["Factor 9: Compact Errors into Context Window", "195-factor-9-errors.gif"],
+          ["Factor 10: Small, Focused Agents", "1a0-small-focused-agents.png"],
+          ["Factor 11: Trigger from anywhere", "1b0-trigger-from-anywhere.png"],
+          ["Factor 12: Make your agent a stateless reducer", "1c0-stateless-reducer.png"],
+        ].map(([title, img], i) => (
+          <div key={i} className="border rounded p-4 hover:shadow-lg transition-shadow">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src={`/${img}`}
+              alt={title}
+              width={300}
+              height={200}
+              className="w-full mb-2"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
+            <p className="text-sm">{title}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2 className="text-2xl font-bold mb-4">How we got here</h2>
+      <div className="mb-8">
+        <Image
+          src="/010-software-dag.png"
+          alt="Software DAG"
+          width={800}
+          height={400}
+          className="w-full mb-4"
+        />
+        <p>We're gonna talk a lot about Directed Graphs (DGs) and their Acyclic friends, DAGs. I'll start by pointing out that...well...software is a directed graph. There's a reason we used to represent programs as flow charts.</p>
+      </div>
+
+      <div className="text-center mt-16">
+        <a href="https://github.com/humanlayer/12-factor-agents" className="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition-colors">
+          View on GitHub
         </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
   );
 }
