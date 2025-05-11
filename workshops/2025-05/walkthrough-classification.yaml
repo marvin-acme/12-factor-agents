@@ -1,0 +1,167 @@
+title: "Building a Large-Scale Text Classifier with Python and BAML"
+text: |
+  Learn how to build a text classifier that can handle hundreds or thousands of categories by combining embeddings for semantic search with LLMs for final selection.
+
+  This walkthrough will guide you through creating a Python application that:
+  - Uses embeddings to efficiently narrow down categories
+  - Uses BAML and LLMs to make final category selections
+  - Handles dynamic category lists
+  - Provides clear, type-safe interfaces
+
+targets:
+  - markdown: "./build/walkthrough.md"
+    onChange:
+      diff: true
+      cp: true
+    newFiles:
+      cat: false
+      cp: true
+  - folders:
+      path: "./build/sections"
+      skip:
+        - "cleanup"
+      final:
+        dirName: "final"
+
+sections:
+  - name: cleanup
+    title: "Cleanup"
+    text: "Make sure you're starting from a clean slate"
+    steps:
+      - text: "Clean up existing files"
+        command: |
+          rm -rf baml_src/ && rm -rf hello.py
+
+  - name: python-setup
+    title: "Chapter 0 - Python Setup"
+    text: "Let's start with a basic Python setup and dependencies."
+    steps:
+      - text: |
+          This guide uses Python and BAML to create a text classifier.
+          
+          You'll need Python 3.10 or later installed.
+          
+          We'll use `uv` as our package manager. If you don't have it installed:
+          
+          ```bash
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          ```
+          
+      - text: "Create pyproject.toml"
+        file: {src: ./walkthrough-classification/00-pyproject.toml, dest: pyproject.toml}
+      - text: "Create a simple hello.py"
+        file: {src: ./walkthrough-classification/00-hello.py, dest: hello.py}
+      - text: "Install dependencies"
+        command: |
+          uv sync
+      - text: "Run it to verify"
+        command: |
+          uv run python hello.py
+        results:
+          - text: "You should see:"
+            code: |
+              hello, world!
+
+  - name: baml-and-categories
+    title: "Chapter 1 - BAML and Categories"
+    text: "Now let's set up BAML and define our category structure."
+    steps:
+      - text: "Initialize BAML"
+        command: |
+          uv run baml-cli init
+      - text: "Remove default resume.baml"
+        command: |
+          rm baml_src/resume.baml
+      - text: "Add our BAML client configuration"
+        file: {src: ./walkthrough-classification/01-clients.baml, dest: baml_src/clients.baml}
+      - text: "Configure BAML code generation for Python"
+        file: {src: ./walkthrough-classification/01-generators.baml, dest: baml_src/generators.baml}
+      - text: "Update hello.py with Category model and loader"
+        file: {src: ./walkthrough-classification/01-hello.py, dest: hello.py}
+      - text: "Generate BAML client code"
+        command: |
+          uv run baml-cli generate
+      - text: "Run it to verify"
+        command: |
+          uv run python hello.py
+        results:
+          - text: "You should see a list of categories printed"
+
+  - name: embeddings-and-search
+    title: "Chapter 2 - Embeddings and Semantic Search"
+    text: "Let's implement category embedding and semantic search to narrow down categories."
+    steps:
+      - text: |
+          First, we'll need to set up OpenAI for embeddings.
+          Create a `.env` file with your OpenAI API key:
+          
+          ```
+          OPENAI_API_KEY=sk-...
+          ```
+          
+      - text: "Update hello.py with embedding and search functions"
+        file: {src: ./walkthrough-classification/02-hello.py, dest: hello.py}
+      - text: "Run it to verify"
+        command: |
+          uv run python hello.py
+        results:
+          - text: "You should see the top 5 categories for 'I want to buy a new phone'"
+
+  - name: llm-selection
+    title: "Chapter 3 - LLM Category Selection"
+    text: "Now let's use BAML and an LLM to pick the best category from our narrowed-down list."
+    steps:
+      - text: "Add BAML function for category selection"
+        file: {src: ./walkthrough-classification/03-pick_best_category.baml, dest: baml_src/pick_best_category.baml}
+      - text: "Update hello.py to use the BAML function"
+        file: {src: ./walkthrough-classification/03-hello.py, dest: hello.py}
+      - text: "Generate updated BAML client"
+        command: |
+          uv run baml-cli generate
+      - text: "Run it to verify"
+        command: |
+          uv run python hello.py
+        results:
+          - text: "You should see the final selected category"
+
+  - name: aliases-and-prompts
+    title: "Chapter 4 - Aliases and Prompts"
+    text: "Let's improve our BAML prompts with aliases and better descriptions."
+    steps:
+      - text: "Update pick_best_category.baml with better prompts"
+        file: {src: ./walkthrough-classification/04-pick_best_category.baml, dest: baml_src/pick_best_category.baml}
+      - text: "Update hello.py to use aliases"
+        file: {src: ./walkthrough-classification/04-hello.py, dest: hello.py}
+      - text: "Generate updated BAML client"
+        command: |
+          uv run baml-cli generate
+      - text: "Run it to verify"
+        command: |
+          uv run python hello.py
+
+  - name: llm-narrowing
+    title: "Chapter 5 - LLM for Narrowing"
+    text: "Let's add an alternative way to narrow down categories using an LLM."
+    steps:
+      - text: "Update pick_best_category.baml with PickBestCategories"
+        file: {src: ./walkthrough-classification/05-pick_best_category.baml, dest: baml_src/pick_best_category.baml}
+      - text: "Update hello.py with LLM narrowing"
+        file: {src: ./walkthrough-classification/05-hello.py, dest: hello.py}
+      - text: "Generate updated BAML client"
+        command: |
+          uv run baml-cli generate
+      - text: "Run it to verify"
+        command: |
+          uv run python hello.py
+
+  - name: baml-tests
+    title: "Chapter 6 - BAML Tests"
+    text: "Finally, let's add some tests to our BAML functions."
+    steps:
+      - text: "Update pick_best_category.baml with tests"
+        file: {src: ./walkthrough-classification/06-pick_best_category.baml, dest: baml_src/pick_best_category.baml}
+      - text: "Run the tests"
+        command: |
+          uv run baml-cli test
+        results:
+          - text: "You should see passing tests"
