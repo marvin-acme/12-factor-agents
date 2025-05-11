@@ -72,10 +72,6 @@ sections:
       - text: "Remove default resume.baml"
         command: |
           rm baml_src/resume.baml
-      - text: "Add our BAML client configuration"
-        file: {src: ./walkthrough-classification/01-clients.baml, dest: baml_src/clients.baml}
-      - text: "Configure BAML code generation for Python"
-        file: {src: ./walkthrough-classification/01-generators.baml, dest: baml_src/generators.baml}
       - text: "Update hello.py with Category model and loader"
         file: {src: ./walkthrough-classification/01-hello.py, dest: hello.py}
       - text: "Generate BAML client code"
