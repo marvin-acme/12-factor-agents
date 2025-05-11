@@ -46,14 +46,6 @@ Remove default resume.baml
 
     rm baml_src/resume.baml
 
-Add our BAML client configuration
-
-    cp ./walkthrough-classification/01-clients.baml baml_src/clients.baml
-
-Configure BAML code generation for Python
-
-    cp ./walkthrough-classification/01-generators.baml baml_src/generators.baml
-
 Update hello.py with Category model and loader
 
     cp ./walkthrough-classification/01-hello.py hello.py
